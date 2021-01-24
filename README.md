@@ -3,6 +3,19 @@
 ## The <i>unofficial</i> API for the Spanish operator República Móvil
 This API consists in a Python script which scrapes the customer section of their website and then writes the output in a JSON file.
 
+### Example
+Requesting `<YOUR_IP>:<PORT>/api-republicamovil/data.json` will return
+```
+{
+  "min_used": "0",
+  "min_available": "150",
+  "cel_used": "2.64",
+  "cel_available": "3",
+  "promo_used": "0.00",
+  "promo_available": "20"
+}
+```
+
 ### Instalation
 ``` bash
 git clone "https://github.com/jchicano/api-republicamovil.git"
