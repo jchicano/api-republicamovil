@@ -13,11 +13,11 @@ PASSWORD = os.getenv('RM_PASSWORD')
 DATA_FILE_PATH = os.getenv('API_STORAGE_FILE')
 
 options = Options()
-# options.add_argument('--headless')
-# options.add_argument('--no-sandbox')  # linux only
-# options.add_argument('--disable-gpu')
-# options.add_argument('--disable-extensions')
-# options.add_argument('--disable-dev-shm-usage')
+options.add_argument('--headless')
+options.add_argument('--no-sandbox')  # linux only
+options.add_argument('--disable-gpu')
+options.add_argument('--disable-extensions')
+options.add_argument('--disable-dev-shm-usage')
 # options.headless = True  # also works
 
 driver = webdriver.Chrome(
