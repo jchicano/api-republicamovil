@@ -41,41 +41,50 @@ driver.quit()
 data = {}
 soup = BeautifulSoup(consumption, 'lxml')
 divs = soup.findAll('div', {'class': 'progress-content'})
+promo_available = False
 if(soup.select_one('.percent')):
     promo_available = True
     promo = soup.select_one('.percent')
-else:
-    promo_available = False
 
 for idx, tag in enumerate(divs):
     x = ''
     char = ''
     if(idx == 0):
         char = 'minutes'
-        x = tag.text.strip().split(" min")
+        x = tag.text.strip().split(' min')
     if(idx == 1):
         char = 'cellular'
-        x = tag.text.strip().split("B")
-        x[0] = x[0].partition(' ')[0]  # divide string by first space
-        x[1] = x[1].partition(' ')[0]
+        x = tag.text.strip().split('B')
+        if('M' in tag.text.strip().split('B')[0]):
+            data['cel_used_format'] = 'MB'
+        else:
+            data['cel_used_format'] = 'GB'
+    x[0] = x[0].partition(' ')[0]  # divide string by first space
+    x[1] = x[1].partition(' ')[0]
     x = list(filter(None, x))  # remove empty items
     # print(list(filter(None, x)))
     data[char] = x
 
 if(promo_available):
     data['promo'] = promo.text.strip().split(' / ')
+    if('M' in data['promo'][0]):
+        data['promo_used_format'] = 'MB'
+    else:
+        data['promo_used_format'] = 'GB'
 
 f = open(DATA_FILE_PATH, 'r+')
 f.truncate(0)  # emptying file
 f.write('{')
-f.write('\n"min_used": "' + data['minutes'][0] + '",')
-f.write('\n"min_available": "' + data['minutes'][1] + '",')
-f.write('\n"cel_used": "' + data['cellular'][0] + '",')
-f.write('\n"cel_available": "' + data['cellular'][1] + '",')
+f.write('\n\t"min_used": "' + data['minutes'][0] + '",')
+f.write('\n\t"min_available": "' + data['minutes'][1] + '",')
+f.write('\n\t"cel_used": "' + data['cellular'][0] + '",')
+f.write('\n\t"cel_available": "' + data['cellular'][1] + '",')
+f.write('\n\t"cel_used_format": "' + data['cel_used_format'] + '",')
 if(promo_available):
-    f.write('\n"promo_used": "' + data['promo'][0].partition(' ')[0] + '",')
-    f.write('\n"promo_available": "' +
-            data['promo'][1].partition(' ')[0] + '"')
+    f.write('\n\t"promo_used": "' + data['promo'][0].partition(' ')[0] + '",')
+    f.write('\n\t"promo_available": "' +
+            data['promo'][1].partition(' ')[0] + '",')
+    f.write('\n\t"promo_used_format": "' + data['promo_used_format'] + '"')
 f.write('\n}')
 f.close()
 
