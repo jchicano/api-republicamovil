@@ -16,6 +16,7 @@ Requesting `<YOUR_IP>:<PORT>/api-republicamovil/data.json` will return
   "min_available": "150",
   "cel_used": "2.64",
   "cel_available": "3",
+  "cel_used_format": "GB",
   "promo_used": "0.00",
   "promo_available": "20"
 }
