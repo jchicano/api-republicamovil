@@ -52,7 +52,9 @@ This script should be continuously called by your server in order to get the mos
 My cron job looks like this, change your own at your convenience:
 
 ```
-*/10 * * * * { printf "\%s: " "$(date "+\%F \%T")"; /usr/bin/python <ABSOLUTE_PATH_TO YOUR SCRIPT>api-republicamovil.py; } >> /home/pi/logs/cronlog 2>&1
+# Request at random time between 15 and 30 https://unix.stackexchange.com/a/140752
+* * * * * { sleep $(( RANDOM % (30 - 15 + 1 ) + 15 ))m ; printf "\%s: " "$(date "+\%F \%T")"; /usr/bin/python /home/pi/tgbot/api-republicamovil.py; } >> /home/pi/logs/cronlog 2>&1
+
 ```
 
 Here I am executing the script every 10 minutes and saving a log every time the job runs, printing the timestamp as well as the output.
