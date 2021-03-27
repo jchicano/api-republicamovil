@@ -19,7 +19,8 @@ Requesting `<YOUR_IP>:<PORT>/api-republicamovil/data.json` will return
   "cel_used_format": "GB",
   "promo_used": "0.00",
   "promo_available": "20",
-  "promo_used_format": "GB"
+  "promo_used_format": "GB",
+  "last_request":	"27/03/2021 17:13:59"
 }
 ```
 
@@ -47,17 +48,26 @@ To simply run the script once, run in terminal
 python api-republicamovil.py
 ```
 
-This script should be continuously called by your server in order to get the most recent data (in my case a Raspberry Pi 4B with a Cron job running the script every 10 minutes).
+This script should run in background by your server in order to get the most recent data (in my case a Raspberry Pi 4B with a service running the script).
 
-My cron job looks like this, change your own at your convenience:
+Create one with `sudo systemctl edit --force --full api-republicamovil.service` and enable boot start with `sudo systemctl enable api-republicamovil.service`
 
-```
-# Request at random time between 15 and 30 https://unix.stackexchange.com/a/140752
-* * * * * { sleep $(( RANDOM % (30 - 15 + 1 ) + 15 ))m ; printf "\%s: " "$(date "+\%F \%T")"; /usr/bin/python /home/pi/tgbot/api-republicamovil.py; } >> /home/pi/logs/cronlog 2>&1
+My service looks like this, change your own at your convenience:
 
 ```
+[Unit]
+Description=API Republica Movil
+Wants=network-online.target
+After=network.target
 
-Here I am executing the script every 10 minutes and saving a log every time the job runs, printing the timestamp as well as the output.
+[Service]
+ExecStart=/usr/bin/python /home/pi/tgbot/bot.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+```
 
 <br>
 
@@ -69,4 +79,4 @@ RM_PASSWORD="<YOUR_PASSWORD>"
 API_STORAGE_FILE="<ABSOLUTE_PATH_TO_THE_JSON_FILE>"
 ```
 
-In my case the last line is `API_STORAGE_FILE="/home/pi/docker/apache/api-republicamovil/data.json"`
+In my file the last line is `API_STORAGE_FILE="/home/pi/docker/apache/api-republicamovil/data.json"`
