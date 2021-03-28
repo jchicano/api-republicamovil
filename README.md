@@ -61,7 +61,7 @@ Wants=network-online.target
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python /home/pi/tgbot/bot.py
+ExecStart=/usr/bin/python /home/pi/tgbot/api-republicamovil.py
 Restart=on-failure
 RestartSec=5
 
