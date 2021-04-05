@@ -20,13 +20,13 @@ Requesting `<YOUR_IP>:<PORT>/api-republicamovil/data.json` will return
   "promo_used": "0.00",
   "promo_available": "20",
   "promo_used_format": "GB",
-  "last_request":	"27/03/2021 17:13:59"
+  "last_request": "27/03/2021 17:13:59"
 }
 ```
 
 <br>
 
-### Instalation
+### Installation
 
 ```bash
 git clone "https://github.com/jchicano/api-republicamovil.git"
